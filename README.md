@@ -1,3 +1,70 @@
+# ambari-flink-service
+
+based on https://github.com/abajwa-hw/ambari-flink-service
+
+升级flink版本至1.7.0, 并进行部分修改以适配HDP 2.6.3 (hadoop 2.7.3)
+
+## flink编译
+```
+git clone https://github.com/apache/flink.git
+cd flink
+git checkout release-1.7.0
+```
+修改根的pom.xml
+```
+修改(避免org.apache.hadoop.yarn.client.RequestHedgingRMFailoverProxyProvider not found):
+    hadoop.version为2.7.3.2.6.3.0-235
+    zookeeper.version为3.4.6.2.6.3.0-235
+增加(解决ClassNotFoundException: javax.ws.rs.ext.MessageBodyReader):
+    <dependency>
+        <groupId>javax.ws.rs</groupId>
+        <artifactId>jsr311-api</artifactId>
+        <version>1.1.1</version>
+    </dependency>
+```
+找台ECS,配置阿里maven镜像(也可-Dhadoop.version=xx来修改版本)
+```
+mvn clean install -DskipTests -Pvendor-repos
+```
+编译等待1小时6分.
+
+如果是maven3.3.x需要额外执行下面:
+```
+cd flink-dist 
+mvn clean install -DskipTests -Pvendor-repos
+cd ..
+```
+最后打包
+```
+cd flink-dist/target/flink-1.7.0-bin/
+tar zcvf flink-1.7.0-bin-hadoop2.7.3.2.6.3.0-235-scala_2.11.tgz flink-1.7.0
+```
+
+
+## 安装
+登录master机(即有/var/lib/ambari-server的机器)
+```
+VERSION=`hdp-select status hadoop-client | sed 's/hadoop-client - \([0-9]\.[0-9]\).*/\1/'`
+git clone https://github.com/gary0416/ambari-flink-service.git /var/lib/ambari-server/resources/stacks/HDP/$VERSION/services/FLINK
+(可选:修改configuration/flink-ambari-config.xml的flink_download_url到内网镜像或自己编译的版本)
+ambari-server restart
+```
+在ambari界面上添加flink服务,have fun
+
+## WordCount测试
+```
+su - flink
+export HADOOP_CONF_DIR=/etc/hadoop/conf
+/opt/flink/bin/flink run -m yarn-cluster examples/batch/WordCount.jar
+```
+
+## 注意
+- 如果重复安装,需要删除agent机上的/tmp/flink.tgz,否则会认为已经安装过(见flink.py:44)
+
+## 附
+
+### 原README
+
 #### An Ambari Service for Flink
 Ambari service for easily installing and managing Flink on HDP clusters.
 Apache Flink is an open source platform for distributed stream and batch data processing

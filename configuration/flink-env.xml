@@ -41,9 +41,9 @@ jobmanager.rpc.address: localhost
 
 jobmanager.rpc.port: 6123
 
-jobmanager.heap.mb: 256
+jobmanager.heap.mb: 768
 
-taskmanager.heap.mb: 512
+taskmanager.heap.mb: 2048
 
 taskmanager.numberOfTaskSlots: 1
 
@@ -55,12 +55,12 @@ parallelism.default: 1
 
 # The port under which the web-based runtime monitor listens.
 # A value of -1 deactivates the web server.
-jobmanager.web.port: 8081
+jobmanager.web.port: 9081
 
 # The port uder which the standalone web client
 # (for job upload and submit) listens.
 
-webclient.port: 8080
+webclient.port: 9080
 
 #==============================================================================
 # Streaming state checkpointing
@@ -113,7 +113,7 @@ state.backend: jobmanager
 # via keys 'fs.hdfs.hdfsdefault' and 'fs.hdfs.hdfssite'.
 #
 # fs.hdfs.hadoopconf: /path/to/hadoop/conf/
-env.java.home: /usr/jdk64/jdk1.8.0_77/jre
+# env.java.home: /usr/jdk64/jdk1.8.0_77/jre
 taskmanager.memory.fraction: 0.6
 env.java.opts: -XX:+UseG1GC
   </value>

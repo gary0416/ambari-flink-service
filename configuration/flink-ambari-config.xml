@@ -43,13 +43,13 @@
   
   <property>
     <name>flink_jobmanager_memory</name>
-    <value>768</value>
+    <value>1024</value>
     <description>Memory for JobManager Container [in MB]. Must be at least 768</description>
   </property> 
       
   <property>
     <name>flink_container_memory</name>
-    <value>1024</value>
+    <value>2048</value>
     <description>Memory per TaskManager Container [in MB]</description>
   </property> 
         
@@ -69,7 +69,8 @@
 
   <property>
     <name>flink_download_url</name>
-    <value>hhttp://www.us.apache.org/dist/flink/flink-1.2.0/flink-1.2.0-bin-hadoop2-scala_2.11.tgz</value>
+    <!--<value>http://mirrors.hust.edu.cn/apache/flink/flink-1.7.0/flink-1.7.0-bin-hadoop27-scala_2.11.tgz</value>-->
+    <value>http://192.168.128.138:9090/flink-1.7.0-bin-hadoop2.7.3.2.6.3.0-235-scala_2.11.tgz</value>
     <description>Snapshot download location. Downloaded when setup_prebuilt is true</description>
   </property>   
 

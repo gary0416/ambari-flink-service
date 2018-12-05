@@ -45,6 +45,10 @@ class Master(Script):
         Execute('wget '+params.flink_download_url+' -O '+params.temp_file+' -a '  + params.flink_log_file, user=params.flink_user)
         Execute('tar -zxvf '+params.temp_file+' -C ' + params.flink_install_dir + ' >> ' + params.flink_log_file, user=params.flink_user)
         Execute('mv '+params.flink_install_dir+'/*/* ' + params.flink_install_dir, user=params.flink_user)
+        # The configuration directory ('/opt/flink/conf') contains both LOG4J and Logback configuration files. Please delete or rename one of them.
+        Execute('mv ' + params.flink_install_dir + '/conf/logback-console.xml ' + params.flink_install_dir + '/conf/logback-console.xml.bak', user=params.flink_user)
+        Execute('mv ' + params.flink_install_dir + '/conf/logback.xml ' + params.flink_install_dir + '/conf/logback.xml.bak', user=params.flink_user)
+        Execute('mv ' + params.flink_install_dir + '/conf/logback-yarn.xml ' + params.flink_install_dir + '/conf/logback-yarn.xml.bak', user=params.flink_user)
                 
       #update the configs specified by user
       self.configure(env, True)
@@ -64,7 +68,7 @@ class Master(Script):
       Execute('cd '+params.flink_install_dir+'; git clone https://github.com/apache/flink.git '+params.flink_install_dir +' >> ' + params.flink_log_file)
       Execute('chown -R ' + params.flink_user + ':' + params.flink_group + ' ' + params.flink_install_dir)
                 
-      Execute('cd '+params.flink_install_dir+'; mvn clean install -DskipTests -Dhadoop.version=2.7.1.2.3.2.0-2950 -Pvendor-repos >> ' + params.flink_log_file, user=params.flink_user)
+      Execute('cd '+params.flink_install_dir+'; mvn clean install -DskipTests -Dhadoop.version=2.7.3.2.6.3.0-235 -Dzookeeper.version=3.4.6.2.6.3.0-235 -Pvendor-repos >> ' + params.flink_log_file, user=params.flink_user)
       
       #update the configs specified by user
       self.configure(env, True)

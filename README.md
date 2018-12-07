@@ -61,6 +61,13 @@ export HADOOP_CONF_DIR=/etc/hadoop/conf
 ## 注意
 - 如果重复安装,需要删除agent机上的/tmp/flink.tgz,否则会认为已经安装过(见flink.py:44)
 
+## 高可用
+https://ci.apache.org/projects/flink/flink-docs-release-1.7/ops/jobmanager_high_availability.html#yarn-cluster-high-availability
+- 将yarn的yarn.resourcemanager.am.max-attempts改成4(default 2 meaning a single JobManager failure is tolerated).
+- ambari上,flink,flink_numcontainers从1改成2
+- hdfs dfs -mkdir /apps/flink && hdfs dfs -chown flink:hadoop /apps/flink && hdfs dfs -chmod 755 /apps/flink
+- yarn application中,点ApplicationMaster进入flink UI,点Job Manager可看到高可用已经是zk
+
 ## 附
 
 ### 原README

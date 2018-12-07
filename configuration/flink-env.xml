@@ -41,13 +41,13 @@ jobmanager.rpc.address: localhost
 
 jobmanager.rpc.port: 6123
 
-jobmanager.heap.mb: 768
+jobmanager.heap.mb: 2048
 
 taskmanager.heap.mb: 2048
 
-taskmanager.numberOfTaskSlots: 1
+taskmanager.numberOfTaskSlots: 2
 
-parallelism.default: 1
+parallelism.default: 2
 
 #==============================================================================
 # Web Frontend
@@ -116,6 +116,15 @@ state.backend: jobmanager
 # env.java.home: /usr/jdk64/jdk1.8.0_77/jre
 taskmanager.memory.fraction: 0.6
 env.java.opts: -XX:+UseG1GC
+
+#==============================================================================
+# HA
+#==============================================================================
+high-availability: zookeeper
+high-availability.zookeeper.quorum: bigdata-ambari-v1-master-00.mxnavi.com:2181,bigdata-ambari-v1-master-01.mxnavi.com:2181,bigdata-ambari-v1-master-02.mxnavi.com:2181
+high-availability.storageDir: hdfs:///apps/flink/recovery
+high-availability.zookeeper.path.root: /flink
+yarn.application-attempts: 10
   </value>
   <description>Template for flink-conf.yaml</description>
   

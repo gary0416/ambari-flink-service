@@ -28,6 +28,8 @@ mvn clean install -DskipTests -Pvendor-repos
 ```
 编译等待1小时6分.
 
+如果confluent的包无法下载，修改maven配置，参见：https://stackoverflow.com/questions/43488853/confluent-maven-repository-not-working
+
 如果是maven3.3.x需要额外执行下面:
 ```
 cd flink-dist 

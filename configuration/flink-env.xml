@@ -124,6 +124,7 @@ high-availability: zookeeper
 high-availability.zookeeper.quorum: bigdata-ambari-v1-master-00.mxnavi.com:2181,bigdata-ambari-v1-master-01.mxnavi.com:2181,bigdata-ambari-v1-master-02.mxnavi.com:2181
 high-availability.storageDir: hdfs:///apps/flink/recovery
 high-availability.zookeeper.path.root: /flink
+high-availability.cluster-id: /clusterA
 yarn.application-attempts: 10
   </value>
   <description>Template for flink-conf.yaml</description>
